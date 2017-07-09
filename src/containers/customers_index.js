@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import _ from 'lodash';
 import localization from '../helpers/localization';
-import { fetchCustomers } from '../actions';
-import SubHeader from '../components/subheader';
-import Command from '../components/command';
-import CustomersList from '../components/customers_list';
+import {fetchCustomers} from '../actions';
+import CustomersList from '../components/lists/customers_list';
+import Command from '../components/commands/command';
+import Content from '../components/templates/content';
+import ContentHeader from '../components/templates/content_header';
+import ContentBody from '../components/templates/content_body';
 
 class CustomersIndex extends Component {
 
@@ -24,19 +26,20 @@ class CustomersIndex extends Component {
 
   render() {
     return (
-      <div>
-        <Command to="/customers/new" title={localization.addCustomer} />
-        <SubHeader title={localization.customers} />
-        <CustomersList customers={this.props.customers} onClick={this.displayDetail} />
-      </div>
+      <Content>
+        <ContentHeader title={localization.customers} icon="th">
+          <Command to="/customers/new" title={localization.addCustomer} icon="plus" style="primary"/>
+        </ContentHeader>
+        <ContentBody>
+          <CustomersList customers={this.props.customers} onClick={this.displayDetail}/>
+        </ContentBody>
+      </Content>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    customers: state.customers
-  }
+  return {customers: state.customers}
 }
 
 export default connect(mapStateToProps, {fetchCustomers})(CustomersIndex);

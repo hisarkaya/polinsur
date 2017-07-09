@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAgencies } from '../actions';
 import localization from '../helpers/localization';
-import AgenciesList from '../components/agencies_list';
-import SubHeader from '../components/subheader';
-import Command from '../components/command';
+import AgenciesList from '../components/lists/agencies_list';
+import Command from '../components/commands/command';
+import Content from '../components/templates/content';
+import ContentHeader from '../components/templates/content_header';
+import ContentBody from '../components/templates/content_body';
 
 class AgenciesIndex extends Component {
 
@@ -14,11 +16,14 @@ class AgenciesIndex extends Component {
 
   render() {
     return (
-      <div>
-        <Command to="/agencies/new" title={localization.addAgency} />
-        <SubHeader title={localization.agencies} />
-        <AgenciesList agencies={this.props.agencies} />
-      </div>
+      <Content>
+        <ContentHeader title={localization.agencies} icon="th">
+          <Command to="/agencies/new" title={localization.addAgency} icon="plus" style="primary"/>
+        </ContentHeader>
+        <ContentBody>
+          <AgenciesList agencies={this.props.agencies} />
+        </ContentBody>
+      </Content>
     );
   }
 }

@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import localization from '../helpers/localization';
+import moment from 'moment';
 import { policeTypes, insuranceCompanies } from '../helpers/select_options'
-import { createPolicy } from '../actions';
+import { createPolicy, fetchAgencies, fetchAgencyCompanies } from '../actions';
 
+const required = value => value ? undefined : localization.required;
+const validDate = value => moment(value, 'DD/MM/YYYY').isValid() ? undefined : localization.failedFormat;
+const isDecimal = value => !isNaN(+value) ? undefined : localization.failedFormat;
 class PoliciesNew extends Component {
 
   renderField(field) {
 
-    const { meta: {touched, error} } = field;
-    const className = `form-group ${touched && error ? 'has-danger' : ''}`
+    const { addOn, placeholder, meta: {touched, error} } = field;
+    const className = `control-group ${touched && error ? 'error' : ''}`;
+
     return (
       <div className={className}>
-        <label>{field.label}</label>
-        <input
-          className="form-control"
-          type="text"
-          {...field.input}
-        />
-        <div className="text-help">
-          {touched ? error : ''}
-        </div>
+        <label className="control-label">{field.label}</label>
+        <div className="controls">
+        {addOn ? <div className="input-append"><input placeholder={placeholder} className="span6" type="text" {...field.input} /><span className={addOn}>{localization.currencySign}</span></div>:
+            <input placeholder={placeholder} className="span6" type="text" {...field.input} />}
+
+        <span className="help-inline"> {touched ? error : ''}</span>
+      </div>
 
       </div>
     );
@@ -30,12 +34,13 @@ class PoliciesNew extends Component {
 
   renderSelectField(field) {
     const { items, label, input,  meta: {touched, error} } = field;
-    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
+    const className = `control-group ${touched && error ? 'error' : ''}`;
     return (
       <div className={className}>
-        <label>{label}</label>
+        <label className="control-label">{label}</label>
+          <div className="controls">
         <select
-          className="form-control"
+          className="span6"
           defaultValue=""
           {...input}
         >
@@ -46,16 +51,50 @@ class PoliciesNew extends Component {
             )
           }
         </select>
-        <div className="text-help">
-          {touched ? error : ''}
-        </div>
+            <span className="help-inline"> {touched ? error : ''}</span>
+      </div>
+
 
       </div>
     );
   }
 
+  renderRemoteSelectField(field, props) {
+    const { items, label, input,  meta: {touched, error} } = field;
+    const className = `control-group ${touched && error ? 'error' : ''}`;
+
+    return (
+      <div className={className}>
+        <label className="control-label">{label}</label>
+        <div className="controls">
+        <select
+          {...input}
+          className="span6"
+          defaultValue=""
+        >
+          <option value="">{localization.selectOption}</option>
+          {
+            _.map(items, (item, prop) => <option key={prop} value={prop}>{`${item.name} ${item.surname}`}</option>)
+
+          }
+        </select>
+            <span className="help-inline"> {touched ? error : ''}</span>
+      </div>
+
+
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.props.fetchAgencies();
+  }
+
   onSubmit(values) {
     const { id } = this.props.match.params;
+    values.customer = id;
+    values.state = 1;
+    values.createDate = {'.sv': 'timestamp'};
     this.props.createPolicy(values, () => {
       this.props.history.push(`/customers/${id}`);
     });
@@ -65,21 +104,48 @@ class PoliciesNew extends Component {
 
     const { handleSubmit } = this.props;
     const { id } = this.props.match.params;
+    const handleSelect = e => {
+      if(e.target.value) {
+        this.props.fetchAgencyCompanies(this.props.agencies[e.target.value].insuranceCompanies);
+      }
+
+    };
 
     return (
-      <div>
-        <h2>{localization.newPolicy}</h2>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <div className="row-fluid">
+        <div className="widget-box">
+          <div className="widget-title"> <span className="icon"> <i className="icon-align-justify"></i> </span>
+            <h5>{localization.newPolicy}</h5>
+          </div>
+            <div className="widget-content nopadding">
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="form-horizontal">
+          <Field
+            label={localization.agency}
+            name="agency"
+            items={this.props.agencies}
+            component={this.renderRemoteSelectField}
+            onChange={handleSelect.bind(this)}
+            validate={required}
+          />
+          <Field
+            label={localization.insuranceCompanies}
+            name="insuranceCompany"
+            items={this.props.agencyCompanies}
+            component={this.renderSelectField}
+            validate={required}
+          />
           <Field
             label={localization.policyType}
             name="policyType"
             items={policeTypes}
             component={this.renderSelectField}
+            validate={required}
           />
           <Field
             label={localization.policyNo}
             name="policyNo"
             component={this.renderField}
+            validate={required}
           />
           {
             (this.props.policyTypeValue === 'trafik' ||
@@ -88,6 +154,7 @@ class PoliciesNew extends Component {
               label={localization.plateNo}
               name="plateNo"
               component={this.renderField}
+              validate={required}
             />
           }
           <Field
@@ -99,36 +166,43 @@ class PoliciesNew extends Component {
             label={localization.startDate}
             name="startDate"
             component={this.renderField}
+            validate={[required, validDate]}
+            placeholder={localization.dateFormat}
           />
           <Field
             label={localization.endDate}
             name="endDate"
             component={this.renderField}
+            validate={[required, validDate]}
+            placeholder={localization.dateFormat}
           />
           <Field
             label={`${localization.net} ${localization.insuranceFee}`}
             name="netFee"
             component={this.renderField}
+            validate={[required, isDecimal]}
+            addOn="add-on"
           />
           <Field
             label={`${localization.gross} ${localization.insuranceFee}`}
             name="grossFee"
             component={this.renderField}
+            validate={[required, isDecimal]}
+            addOn="add-on"
           />
           <Field
             label={localization.comissionRate}
             name="comissionRate"
             component={this.renderField}
+            validate={[required, isDecimal]}
           />
-          <Field
-            label={localization.insuranceCompany}
-            name="insuranceCompany"
-            items={insuranceCompanies}
-            component={this.renderSelectField}
-          />
+            <div className="form-actions">
           <button type="submit" className="btn btn-primary">{localization.submit}</button>
           <Link to={`/customers/${id}`} className="btn btn-danger">{localization.cancel}</Link>
+        </div>
         </form>
+      </div>
+      </div>
       </div>
     );
   }
@@ -144,9 +218,11 @@ PoliciesNew = connect(
   state => {
     const policyTypeValue = selector(state, 'policyType');
     return {
-      policyTypeValue
+      policyTypeValue,
+      agencies: state.agencies,
+      agencyCompanies: state.agencyCompanies
     }
   }
-  ,{ createPolicy } )(PoliciesNew);
+  ,{ createPolicy, fetchAgencies, fetchAgencyCompanies } )(PoliciesNew);
 
 export default PoliciesNew;

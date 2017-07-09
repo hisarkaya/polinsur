@@ -57,14 +57,18 @@ let localization = new LocalizedStrings({
    insuranceCompany: 'Insurance Company',
    insuranceCompanies: 'Insurance Companies',
    addAgency: 'Add Agency',
-   agencies: 'Agencies'
+   agencies: 'Agencies',
+   dateFormat: 'DD/MM/YYYY',
+   agency: 'Agency',
+   homePage: 'Home',
+   currencySign: 'GB'
  },
  tr: {
    required: 'Bu alan zorunludur',
    policyNo: 'Poli\u00e7e No',
    startDate: 'Ba\u015flang\u0131\u00e7 Tarihi',
    endDate: 'Biti\u015f Tarihi',
-   submit: 'G\u00f6nder',
+   submit: 'Kaydet',
    cancel: '\u0130ptal',
    addPolicy: 'Poli\u00e7e Ekle',
    addCustomer: 'M\u00fc\u015fteri Ekle',
@@ -100,7 +104,11 @@ let localization = new LocalizedStrings({
    insuranceCompany: 'Sigorta \u015eirketi',
    insuranceCompanies: 'Sigorta \u015eirketleri',
    addAgency: 'Acente Ekle',
-   agencies: 'Acenteler'
+   agencies: 'Acenteler',
+   dateFormat: 'GG/AA/YYYY',
+   agency: 'Acente',
+   homePage: 'Anasayfa',
+   currencySign: 'TL'
  }
 });
 

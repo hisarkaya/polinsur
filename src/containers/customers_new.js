@@ -31,7 +31,7 @@ class CustomersNew extends Component {
           placeholder={placeholder}
           {...input}
         />
-        <div className="text-help">
+        <div className="form-control-feedback">
           {touched ? error : ''}
         </div>
 

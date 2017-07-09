@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import localization from '../helpers/localization';
 import { insuranceCompanies } from '../helpers/select_options';
 import { Link } from 'react-router-dom';
+import { createAgency } from '../actions';
 
 const required = value => value ? undefined : localization.required;
 
@@ -68,7 +69,13 @@ class AgenciesNew extends Component {
   }
 
   onSubmit(values) {
-    console.log(values);
+    values.state = 1;
+    values.createDate = {'.sv': 'timestamp'};
+    values.name = values.name.toUpperCase();
+    values.surname = values.surname.toUpperCase();
+    this.props.createAgency(values, () => {
+      this.props.history.push('/agencies');
+    })
   }
 
 
@@ -110,6 +117,6 @@ AgenciesNew = reduxForm({
   form: 'AgenciesNewForm'
 })(AgenciesNew);
 
-AgenciesNew = connect(null, null)(AgenciesNew);
+AgenciesNew = connect(null, { createAgency })(AgenciesNew);
 
 export default AgenciesNew;
