@@ -1,13 +1,12 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import localization from '../../helpers/localization';
 
 const SideBar = props => {
 
-  const pathArr = props.location.pathname.split('/');
-
-  const renderActiveClass = (path) => {
-    return pathArr[1] === path
+  const renderActiveClass = path => {
+    return props.activePage === path
       ? 'active'
       : '';
   }
@@ -17,12 +16,12 @@ const SideBar = props => {
     <div id="sidebar">
       <Link to="#" className="visible-phone">
         <i className="icon icon-home"></i>
-        {localization.homePage}</Link>
+        {localization.dashboard}</Link>
       <ul>
-        <li className={`${renderActiveClass('')}`}>
+        <li className={`${renderActiveClass('dashboard')}`}>
           <Link to="/">
             <i className="icon icon-home"></i>
-            <span>{localization.homePage}</span>
+            <span>{localization.dashboard}</span>
           </Link>
         </li>
         <li className={`${renderActiveClass('customers')}`}>
@@ -47,6 +46,11 @@ const SideBar = props => {
     </div>
 
   )
+
 }
 
-export default withRouter(SideBar);
+function mapStateToProps(state) {
+  return {activePage: state.navigation.activePage};
+}
+
+export default connect(mapStateToProps)(SideBar);

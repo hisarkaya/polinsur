@@ -9,10 +9,10 @@ import reducers from './reducers';
 
 import Header from './components/templates/header';
 import TopHeaderMenu from './components/templates/top_header_menu';
-import SubHeader from './components/templates/subheader';
+import Breadcrumb from './components/templates/breadcrumb';
 import Search from './components/templates/search';
-import SideBar from './components/templates/side_bar';
 import Footer from './components/templates/footer';
+import SideBar from './components/templates/side_bar';
 
 import Dashboard from './containers/dashboard';
 import PoliciesIndex from './containers/policies_index';
@@ -22,6 +22,9 @@ import CustomersNew from './containers/customers_new';
 import CustomersDetail from './containers/customers_detail';
 import AgenciesIndex from './containers/agencies_index';
 import AgenciesNew from './containers/agencies_new';
+import AgenciesDetail from './containers/agencies_detail';
+import AgenciesEdit from './containers/agencies_edit';
+import AgenciesDelete from './containers/agencies_delete';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 //  ,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -37,7 +40,7 @@ ReactDOM.render(
         <Search />
         <SideBar />
         <div id="content">
-            <SubHeader title="Home" />
+            <Breadcrumb />
             <div className="container-fluid">
           <Switch>
             <Route path="/policies/new/:id" component={PoliciesNew} />
@@ -46,6 +49,9 @@ ReactDOM.render(
             <Route path="/customers/:id" component={CustomersDetail} />
             <Route path="/customers" component={CustomersIndex} />
             <Route path="/agencies/new" component={AgenciesNew} />
+            <Route path="/agencies/edit/:id" component={AgenciesEdit} />
+            <Route path="/agencies/delete/:id" component={AgenciesDelete} />
+            <Route path="/agencies/:id" component={AgenciesDetail} />
             <Route path="/agencies" component={AgenciesIndex} />
             <Route path="/" component={Dashboard} />
           </Switch>

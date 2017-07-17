@@ -8,7 +8,7 @@ const renderCustomers = (customers, handler) => {
 
     return (
       <tr key={prop} onClick={() => handler(prop)}>
-        <td className="iconWidth"><i className={`fa fa-${isCompany ? 'building': 'user-circle'}`}></i></td>
+        <td className="iconWidth"><i className={`icon-${isCompany ? 'briefcase': 'user'}`}></i></td>
         <td>{isCompany ? title : name + ' ' + surname}</td>
         <td>{tcVergiNo}</td>
         <td>{contactNumber}</td>

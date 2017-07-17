@@ -1,15 +1,25 @@
-/*form a {
-  margin-left: 5px;
+form button {
+  margin-right: 5px;
+}
+
+.customers-table tbody > tr,
+.agencies-table tbody > tr {
+  cursor: pointer;
+}
+
+.badge {
+  margin-right: 5px;
 }
 
 .iconWidth {
-  width: 40px;
-  text-align: center;
+  width: 16px;
+  text-align: center !important;
 }
 
-.customers-table tbody > tr {
-  cursor: pointer;
-}
+
+/*
+
+
 
 .checkbox {
   width: 20%;
@@ -21,6 +31,4 @@
   flex-wrap: wrap;
 }
 
-.badge {
-  margin-right: 5px;
-}*/
+*/

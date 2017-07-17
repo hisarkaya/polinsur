@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import localization from '../helpers/localization';
-import {fetchCustomers} from '../actions';
+import {fetchCustomers, setNavigation} from '../actions';
 import CustomersList from '../components/lists/customers_list';
 import Command from '../components/commands/command';
 import Content from '../components/templates/content';
@@ -18,6 +18,7 @@ class CustomersIndex extends Component {
 
   componentDidMount() {
     this.props.fetchCustomers();
+    this.props.setNavigation('customers', 'customers', 'group');
   }
 
   displayDetail(key) {
@@ -42,4 +43,4 @@ function mapStateToProps(state) {
   return {customers: state.customers}
 }
 
-export default connect(mapStateToProps, {fetchCustomers})(CustomersIndex);
+export default connect(mapStateToProps, {fetchCustomers, setNavigation})(CustomersIndex);

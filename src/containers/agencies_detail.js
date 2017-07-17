@@ -1,57 +1,56 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {fetchCustomer, fetchPoliciesByCustomer, setNavigation} from '../actions';
+import {fetchAgency, fetchPoliciesByAgency, setNavigation} from '../actions';
 import localization from '../helpers/localization';
 
 import PoliciesList from '../components/lists/policies_list';
-import CustomerBio from '../components/widgets/customer_bio';
+import AgencyBio from '../components/widgets/agency_bio';
 import Command from '../components/commands/command';
 import Content from '../components/templates/content';
 import ContentHeader from '../components/templates/content_header';
 import ContentBody from '../components/templates/content_body';
 
-class CustomersDetail extends Component {
+class AgenciesDetail extends Component {
 
   componentDidMount() {
     const {id} = this.props.match.params;
-    this.props.fetchPoliciesByCustomer(id);
-    this.props.setNavigation('customers', 'customers/customerDetail', 'group');
+    this.props.fetchPoliciesByAgency(id);
+    this.props.setNavigation('agencies', 'agencies/agencyDetail', 'user');
   }
 
   render() {
     const {
-      customer,
+      agency,
       match: {
         params: {
           id
         }
       }
     } = this.props;
-    if (!customer) {
+    if (!agency) {
       return <div>Loading...</div>;
     }
 
-    const title = `${localization.customer}: ${customer.isCompany
-      ? customer.title
-      : customer.name + ' ' + customer.surname}`;
+    const title = `${localization.detail}: ${agency.name} ${agency.surname}`;
 
     return (
       <div>
 
         <Content>
-          <ContentHeader title={title} icon="th">
-            <Command to="/customers" icon="arrow-left" style="info" title={localization.back}/>
+          <ContentHeader title={title} icon="info-sign">
+            <Command to="/agencies" icon="th" style="info" title={localization.list}/>
+            <Command to={`/agencies/edit/${id}`} icon="pencil" style="primary" title={localization.edit}/>
+            <Command to={`/agencies/delete/${id}`} icon="remove" style="danger" title={localization.delete}/>
           </ContentHeader>
           <ContentBody>
-            <CustomerBio customer={customer}/>
+            <AgencyBio agency={agency}/>
           </ContentBody>
         </Content>
 
         <Content>
           <ContentHeader title={localization.policies} icon="th">
             <Command to={`/policies/new/${id}`} icon="plus" style="primary" title={localization.addPolicy}/>
-          
           </ContentHeader>
           <ContentBody>
             <PoliciesList policies={this.props.policies}/>
@@ -64,13 +63,13 @@ class CustomersDetail extends Component {
 }
 
 function mapStateToProps({
-  customers,
+  agencies,
   policies
 }, ownProps) {
   return {
-    customer: customers[ownProps.match.params.id],
+    agency: agencies[ownProps.match.params.id],
     policies
   }
 }
 
-export default connect(mapStateToProps, {fetchCustomer, fetchPoliciesByCustomer,setNavigation})(CustomersDetail);
+export default connect(mapStateToProps, {fetchAgency, fetchPoliciesByAgency, setNavigation})(AgenciesDetail);

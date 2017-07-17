@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPolicies } from '../actions';
+import { fetchPolicies, setNavigation } from '../actions';
 import localization from '../helpers/localization';
-import SubHeader from '../components/templates/subheader';
 import Command from '../components/commands/command';
 import Content from '../components/templates/content';
 import ContentHeader from '../components/templates/content_header';
@@ -13,6 +12,7 @@ class PoliciesIndex extends Component {
 
   componentDidMount() {
     this.props.fetchPolicies();
+    this.props.setNavigation('policies', 'policies', 'file');
   }
 
   render() {
@@ -36,4 +36,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {fetchPolicies})(PoliciesIndex);
+export default connect(mapStateToProps, {fetchPolicies, setNavigation})(PoliciesIndex);

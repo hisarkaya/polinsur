@@ -11,20 +11,21 @@ const renderInsuranceCompanies = arr => {
   );
 }
 
-const renderAgencies = agencies => {
+const renderAgencies = (agencies, handler) => {
+
   return _.map(agencies, (agency, prop) => {
     const { name, surname, insuranceCompanies } = agency;
     return (
-      <tr key={prop}>
+      <tr key={prop} onClick={() => handler(prop)}>
         <td>{`${name} ${surname}`}</td>
         <td>{renderInsuranceCompanies(insuranceCompanies)}</td>
       </tr>)
   });
 }
 
-const AgenciesList = ({agencies}) => {
+const AgenciesList = ({agencies, onClick}) => {
   return (
-    <table className="table table-hover table-bordered table-sm">
+    <table className="table table-hover table-bordered table-sm agencies-table">
       <thead>
         <tr className="bg-warning">
           <th>{localization.displayName}</th>
@@ -32,7 +33,7 @@ const AgenciesList = ({agencies}) => {
         </tr>
       </thead>
       <tbody>
-        {renderAgencies(agencies)}
+        {renderAgencies(agencies, onClick)}
       </tbody>
     </table>
   );
