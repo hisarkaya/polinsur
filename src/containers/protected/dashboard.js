@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { setNavigation } from '../actions';
+import { setNavigation } from '../../actions';
 
 class Dashboard extends Component {
 

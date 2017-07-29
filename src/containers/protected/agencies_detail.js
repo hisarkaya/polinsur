@@ -49,9 +49,7 @@ class AgenciesDetail extends Component {
         </Content>
 
         <Content>
-          <ContentHeader title={localization.policies} icon="th">
-            <Command to={`/policies/new/${id}`} icon="plus" style="primary" title={localization.addPolicy}/>
-          </ContentHeader>
+          <ContentHeader title={localization.policies} icon="th" />
           <ContentBody>
             <PoliciesList policies={this.props.policies}/>
           </ContentBody>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAgencies, setNavigation } from '../actions';
-import localization from '../helpers/localization';
-import AgenciesList from '../components/lists/agencies_list';
-import Command from '../components/commands/command';
-import Content from '../components/templates/content';
-import ContentHeader from '../components/templates/content_header';
-import ContentBody from '../components/templates/content_body';
+import { fetchAgencies, setNavigation } from '../../actions';
+import localization from '../../helpers/localization';
+import AgenciesList from '../../components/lists/agencies_list';
+import Command from '../../components/commands/command';
+import Content from '../../components/templates/content';
+import ContentHeader from '../../components/templates/content_header';
+import ContentBody from '../../components/templates/content_body';
 
 class AgenciesIndex extends Component {
 

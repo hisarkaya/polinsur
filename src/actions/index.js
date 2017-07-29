@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { insuranceCompanies } from '../helpers/select_options';
+import {
+  insuranceCompanies
+} from '../helpers/select_options';
+import {
+  firebaseAuth
+} from '../config/constants';
+
 
 export const FETCH_POLICIES = 'fetch_policies';
 export const FETCH_POLICIES_BY_CUSTOMER = 'fetch_policies_by_customer';
@@ -9,10 +15,12 @@ export const FETCH_CUSTOMERS = 'fetch_customers';
 export const CREATE_CUSTOMER = 'create_customer';
 export const FETCH_CUSTOMER = 'fetch_customer';
 export const FETCH_AGENCY = 'fetch_agency';
+export const DELETE_AGENCY = 'delete_agency';
 export const FETCH_AGENCIES = 'fetch_agencies';
 export const CREATE_AGENCY = 'create_agency';
 export const UPDATE_AGENCY = 'update_agency';
 export const SET_NAVIGATION = 'set_navigation';
+export const AUTH_STATE_CHANGE = 'auth_state_change';
 
 export const FETCH_AGENCY_COMPANIES = 'fetch_agency_companies';
 
@@ -27,6 +35,36 @@ export function setNavigation(activePage, breadcrumb, icon) {
     icon: icon
   }
 }
+
+export function authStateChange() {
+
+  const request = new Promise(function(resolve, reject) {
+    firebaseAuth().onAuthStateChanged(function(user) {
+      if (user) {
+        //store.dispatch('LOGIN_SUCCESS', user.uid);
+        resolve(user);
+      } else {
+        //store.dispatch('LOGIN_FAIL');
+        reject('error');
+      }
+    });
+  });
+
+  return (dispatch) => {
+    request.then(user => {
+      console.log('inside dispatch:',user);
+      dispatch({
+        type: AUTH_STATE_CHANGE,
+        authed: true
+      })
+
+    }).catch(message => {
+      dispatch ({type: AUTH_STATE_CHANGE, authed: false})
+    });;
+
+  }
+}
+
 
 export function fetchPolicies() {
   const request = axios.get(`${ROOT_URL}/${ACCOUNT}/policies.json`);
@@ -67,10 +105,12 @@ export function fetchCustomers() {
 export function fetchAgencyCompanies(values) {
   let newValues = [];
   values.forEach(val => {
-    let obj = { text: insuranceCompanies.filter(v => v.value === val)[0].text , value: val };
+    let obj = {
+      text: insuranceCompanies.filter(v => v.value === val)[0].text,
+      value: val
+    };
     newValues.push(obj);
-  }
-  );
+  });
   return {
     type: FETCH_AGENCY_COMPANIES,
     payload: newValues
@@ -79,6 +119,38 @@ export function fetchAgencyCompanies(values) {
 
 export function fetchAgencies() {
   const request = axios.get(`${ROOT_URL}/${ACCOUNT}/agencies.json`);
+
+  // //console.log(firebase.auth());
+  //
+  // firebase.auth().signInWithEmailAndPassword('hisarkaya@hotmail.com', '12345678').catch(function(error) {
+  //   // Handle Errors here.
+  //   var errorCode = error.code;
+  //   var errorMessage = error.message;
+  //   // ...
+  // });
+  //
+  // firebase.auth().onAuthStateChanged(function(user) {
+  //   if (user) {
+  //     // User is signed in.
+  //     var displayName = user.displayName;
+  //     var email = user.email;
+  //     var emailVerified = user.emailVerified;
+  //     var photoURL = user.photoURL;
+  //     var isAnonymous = user.isAnonymous;
+  //     var uid = user.uid;
+  //     var providerData = user.providerData;
+  //     console.log(user);
+  //     // ...
+  //   } else {
+  //     // User is signed out.
+  //     // ...
+  //   }
+  // });
+
+  // firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+  // var username = snapshot.val().username;
+  // // ...
+  // });
 
   return {
     type: FETCH_AGENCIES,
@@ -102,6 +174,16 @@ export function updateAgency(values, key, callback) {
 
   return {
     type: UPDATE_AGENCY,
+    payload: request
+  }
+}
+
+export function deleteAgency(key, callback) {
+  const request = axios.delete(`${ROOT_URL}/${ACCOUNT}/agencies/${key}.json`)
+    .then(() => callback());
+
+  return {
+    type: DELETE_AGENCY,
     payload: request
   }
 }

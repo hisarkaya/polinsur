@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { fetchAgency, updateAgency } from '../actions';
+import { fetchAgency, updateAgency, setNavigation } from '../actions';
 import localization from '../helpers/localization';
 import Content from '../components/templates/content';
 import ContentHeader from '../components/templates/content_header';
@@ -17,6 +17,7 @@ class AgenciesEdit extends Component {
   componentDidMount() {
     const {id} = this.props.match.params;
     this.props.fetchAgency(id);
+    this.props.setNavigation('agencies', 'agencies/agencyDetail/editAgency', 'user');
   }
 
   onSubmit(values) {
@@ -65,5 +66,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 AgenciesEdit = reduxForm({form: 'AgenciesEditForm'})(AgenciesEdit);
-AgenciesEdit = connect(mapStateToProps, {fetchAgency, updateAgency})(AgenciesEdit);
+AgenciesEdit = connect(mapStateToProps, {fetchAgency, updateAgency, setNavigation})(AgenciesEdit);
 export default AgenciesEdit;

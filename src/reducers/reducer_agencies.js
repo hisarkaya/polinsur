@@ -1,4 +1,4 @@
-import { FETCH_AGENCIES, FETCH_AGENCY } from '../actions';
+import { FETCH_AGENCIES, FETCH_AGENCY, DELETE_AGENCY } from '../actions';
 
 export default function(state = {}, action) {
   switch (action.type) {

@@ -59,6 +59,8 @@ let localization = new LocalizedStrings({
     insuranceCompanies: 'Insurance Companies',
     addAgency: 'Add Agency',
     newAgency: 'New Agency',
+    deleteAgency: 'Delete Agency',
+    editAgency: 'Edit Agency',
     agencyDetail: 'Agency Detail',
     agencies: 'Agencies',
     dateFormat: 'DD/MM/YYYY',
@@ -68,7 +70,9 @@ let localization = new LocalizedStrings({
     edit: 'Edit',
     delete: 'Delete',
     list: 'List',
-    detail: 'Detail'
+    detail: 'Detail',
+    deleteConfirmation: 'Are you sure to delete this record?',
+    deleteRejectPolicies: 'You can not delete this record. You should delete the related policies before.'
   },
   tr: {
     required: 'Bu alan zorunludur',
@@ -113,6 +117,8 @@ let localization = new LocalizedStrings({
     insuranceCompanies: 'Sigorta \u015eirketleri',
     addAgency: 'Acente Ekle',
     newAgency: 'Yeni Acente',
+    deleteAgency: 'Acente Silme',
+    editAgency: 'Acente D\u00fczenleme',
     agencies: 'Acenteler',
     agencyDetail: 'Acente Detay\u0131',
     dateFormat: 'GG/AA/YYYY',
@@ -122,7 +128,9 @@ let localization = new LocalizedStrings({
     edit: 'D\u00fczenle',
     delete: 'Sil',
     list: 'Liste',
-    detail: 'Detay'
+    detail: 'Detay',
+    deleteConfirmation: 'Bu kayd\u0131 silmek istedi\u011finizden emin misiniz?',
+    deleteRejectPolicies: 'Bu kayd\u0131 silemezsiniz. \u00d6ncelikle ba\u011fl\u0131 poli\u00e7eleri silmeniz gerekmektedir.'
   }
 });
 
