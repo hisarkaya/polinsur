@@ -17,6 +17,9 @@ import LocalizedStrings from 'react-localization';
 
 let localization = new LocalizedStrings({
   en: {
+    email: 'Email',
+    password: 'Password',
+    login: 'Login',
     required: 'This field is required',
     policyNo: 'Policy No',
     startDate: 'Start Date',
@@ -75,6 +78,9 @@ let localization = new LocalizedStrings({
     deleteRejectPolicies: 'You can not delete this record. You should delete the related policies before.'
   },
   tr: {
+    email: 'E-posta',
+    password: 'Parola',
+    login: 'Giri\u015f',
     required: 'Bu alan zorunludur',
     policyNo: 'Poli\u00e7e No',
     startDate: 'Ba\u015flang\u0131\u00e7 Tarihi',

@@ -1,13 +1,15 @@
-import {AUTH_STATE_CHANGE} from '../actions';
+import {LOGIN_SUCCESS, LOGIN_FAILURE} from '../actions';
 
 const defaultValue = {
-  authed: false,
-  loading: true
+  loggedIn: false,
+  message: ''
 }
 
 export default function(state = defaultValue, action) {
   switch (action.type) {
-    case AUTH_STATE_CHANGE:
+    case LOGIN_SUCCESS:
+      return action.payload;
+    case LOGIN_FAILURE:
       return action.payload;
     default:
       return state;

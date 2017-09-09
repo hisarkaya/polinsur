@@ -2,20 +2,20 @@ import React, { Component} from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom';
-import { logout } from '../helpers/auth';
-import { firebaseAuth } from '../config/constants';
-import { authStateChange } from '../actions';
+import { logout } from '../../helpers/auth';
+import { firebaseAuth } from '../../config/constants';
+import { authStateChange } from '../../actions';
 
 
-import Login from './Login'
-import Dashboard from './protected/dashboard';
 
-import Header from '../components/templates/header';
-import TopHeaderMenu from '../components/templates/top_header_menu';
-import Breadcrumb from '../components/templates/breadcrumb';
-import Search from '../components/templates/search';
-import Footer from '../components/templates/footer';
-import SideBar from '../components/templates/side_bar';
+import Dashboard from './dashboard';
+
+import Header from '../../components/templates/header';
+import TopHeaderMenu from '../../components/templates/top_header_menu';
+import Breadcrumb from '../../components/templates/breadcrumb';
+import Search from '../../components/templates/search';
+import Footer from '../../components/templates/footer';
+import SideBar from '../../components/templates/side_bar';
 
 //
 // import PoliciesIndex from './containers/policies_index';
@@ -23,7 +23,7 @@ import SideBar from '../components/templates/side_bar';
 // import CustomersIndex from './containers/customers_index';
 // import CustomersNew from './containers/customers_new';
 // import CustomersDetail from './containers/customers_detail';
-import AgenciesIndex from './protected/agencies_index';
+import AgenciesIndex from './agencies_index';
 // import AgenciesNew from './containers/agencies_new';
 // import AgenciesDetail from './containers/agencies_detail';
 // import AgenciesEdit from './containers/agencies_edit';
@@ -85,9 +85,9 @@ class App extends Component {
                   <PrivateRoute authed={this.props.authed} path="/agencies/new" component={AgenciesNew} />
                   <PrivateRoute authed={this.props.authed} path="/agencies/edit/:id" component={AgenciesEdit} />
                   <PrivateRoute authed={this.props.authed} path="/agencies/delete/:id" component={AgenciesDelete} />
-                  <PrivateRoute authed={this.props.authed} path="/agencies/:id" component={AgenciesDetail} /> */}
+                  <PrivateRoute authed={this.props.authed} path="/agencies/:id" component={AgenciesDetail} />
                   <PrivateRoute authed={this.props.authed} path="/agencies" component={AgenciesIndex} />
-                  <PublicRoute authed={this.props.authed}  path="/" component={Login} />
+                  <PublicRoute authed={this.props.authed}  path="/" component={Login} />*/}
                 </Switch>
               </div>
               </div>
